@@ -1,4 +1,5 @@
 .board {
+	--box-size: 200px;
 	position: relative;
 }
 

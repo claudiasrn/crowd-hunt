@@ -1,0 +1,23 @@
+.menu {
+	position: absolute;
+	margin: 0;
+	margin-left: calc(var(--box-size) / 2 + 8px);
+	padding: 0;
+	list-style: none;
+	transform: translateY(-50%);
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.option {
+	padding: 0;
+	border: none;
+	cursor: pointer;
+}
+
+.thumb {
+	width: 64px;
+	height: 64px;
+	display: block;
+}
