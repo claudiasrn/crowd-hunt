@@ -1,19 +1,28 @@
 import { useState, useEffect, useRef } from "react";
 import { getRelativeCoords } from "../utils/coords";
+import { startGame } from "../api";
 import TargetBox from "./TargetBox";
 import CharacterMenu from "./CharacterMenu";
 import styles from "./GameBoard.module.css";
 
-// Temporary, will come from the server later
-const TARGETS = [
-	{ id: 1, name: "yellow-cap", thumbnail: "/images/targets/yellow-cap.jpg" },
-	{ id: 2, name: "big-curls", thumbnail: "/images/targets/big-curls.jpg" },
-	{ id: 3, name: "orange-brim", thumbnail: "/images/targets/orange-brim.jpg" },
-];
+// Temporary until the image picker exists.
+const IMAGE_ID = 1;
 
 function GameBoard() {
+	const [game, setGame] = useState(null);
+	const [error, setError] = useState(null);
 	const [target, setTarget] = useState(null);
 	const boardRef = useRef(null);
+	const hasStarted = useRef(false);
+
+	useEffect(() => {
+		if (hasStarted.current) return;
+		hasStarted.current = true;
+
+		startGame(IMAGE_ID)
+			.then(setGame)
+			.catch((err) => setError(err.message));
+	}, []);
 
 	useEffect(() => {
 		if (!target) return;
@@ -51,15 +60,18 @@ function GameBoard() {
 	}
 
 	function handleSelect(characterId) {
-		console.log({ characterId, x: target.x, y: target.y });
+		console.log({ gameId: game.gameId, characterId, x: target.x, y: target.y });
 		setTarget(null);
 	}
+
+	if (error) return <p>Couldn't start the game: {error}</p>;
+	if (!game) return <p>Loading…</p>;
 
 	return (
 		<div className={styles.board} ref={boardRef}>
 			<img
 				className={styles.image}
-				src="/images/Front-row.jpg"
+				src={game.image.url}
 				alt="A large crowd of spectators at a race"
 				onClick={handleImageClick}
 			/>
@@ -69,7 +81,7 @@ function GameBoard() {
 					<CharacterMenu
 						x={target.x}
 						y={target.y}
-						targets={TARGETS}
+						targets={game.targets}
 						onSelect={handleSelect}
 					/>
 				</>
