@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+		"test": "node --env-file=.env.test --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
+		"test:migrate": "node --env-file=.env.test node_modules/prisma/build/index.js migrate deploy",
 		"start": "node index.js",
 		"dev": "node --watch --env-file=.env index.js"
 	},
