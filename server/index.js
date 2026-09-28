@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import gamesRouter from "./routes/games.js"
 
 const app = express();
 
@@ -10,9 +11,7 @@ app.use(
 );
 app.use(express.json());
 
-app.get("/", (req, res) => {
-	res.json({ message: "hello" });
-});
+app.use("/games", gamesRouter)
 
 app.use((req, res) => {
 	res.status(404).json({ message: "Not found" });
