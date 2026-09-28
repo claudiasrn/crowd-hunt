@@ -5,6 +5,9 @@ import TargetBox from "./TargetBox";
 import CharacterMenu from "./CharacterMenu";
 import Marker from "./Marker";
 import styles from "./GameBoard.module.css";
+import Timer from "./Timer";
+import ScoreModal from "./ScoreModal";
+import { formatTime } from "../utils/formatTime";
 
 // Temporary until the image picker exists.
 const IMAGE_ID = 1;
@@ -17,6 +20,8 @@ function GameBoard() {
 	const [markers, setMarkers] = useState([]);
 	const [feedback, setFeedback] = useState(null);
 	const [pending, setPending] = useState(false);
+	const [savedName, setSavedName] = useState(null);
+	const [startTime, setStartTime] = useState(null);
 	const [finishedTime, setFinishedTime] = useState(null);
 	const boardRef = useRef(null);
 	const hasStarted = useRef(false);
@@ -27,7 +32,10 @@ function GameBoard() {
 		hasStarted.current = true;
 
 		startGame(IMAGE_ID)
-			.then(setGame)
+			.then((data) => {
+				setGame(data);
+				setStartTime(Date.now());
+			})
 			.catch((err) => setError(err.message));
 	}, []);
 
@@ -112,8 +120,13 @@ function GameBoard() {
 
 	return (
 		<>
+			<Timer startTime={startTime} finalMs={finishedTime} />
 			{feedback && <p role="status">{feedback}</p>}
-			{finishedTime !== null && <p>Finished in {(finishedTime / 1000).toFixed(1)}s</p>}
+			{savedName && (
+				<p>
+					Saved {savedName}'s time of {formatTime(finishedTime)}
+				</p>
+			)}
 
 			<div className={styles.board} ref={boardRef}>
 				<img
@@ -137,6 +150,14 @@ function GameBoard() {
 					</>
 				)}
 			</div>
+
+			{finishedTime !== null && !savedName && (
+				<ScoreModal
+					gameId={game.gameId}
+					timeMs={finishedTime}
+					onSubmitted={setSavedName}
+				/>
+			)}
 		</>
 	);
 }
