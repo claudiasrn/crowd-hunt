@@ -193,3 +193,13 @@ describe("full game flow", () => {
 		expect(scores.body.scores).toHaveLength(0);
 	});
 });
+
+describe("GET /images", () => {
+	test("lists images without their characters", async () => {
+		const res = await request(app).get("/images").expect(200);
+
+		expect(res.body.images).toEqual([
+			{ id: image.id, name: "Test Image", url: "/images/test.jpg" },
+		]);
+	});
+});

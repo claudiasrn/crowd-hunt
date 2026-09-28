@@ -57,3 +57,12 @@ export const getScores = [
 		res.json({ scores });
 	},
 ];
+
+export async function listImages(req, res) {
+	const images = await prisma.image.findMany({
+		select: { id: true, name: true, url: true },
+		orderBy: { id: "asc" },
+	});
+
+	res.json({ images });
+}
