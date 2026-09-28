@@ -8,12 +8,13 @@ import styles from "./GameBoard.module.css";
 import Timer from "./Timer";
 import ScoreModal from "./ScoreModal";
 import { formatTime } from "../utils/formatTime";
+import Leaderboard from "./Leaderboard";
 
 // Temporary until the image picker exists.
 const IMAGE_ID = 1;
 const FEEDBACK_MS = 2000;
 
-function GameBoard() {
+function GameBoard({ onPlayAgain }) {
 	const [game, setGame] = useState(null);
 	const [error, setError] = useState(null);
 	const [target, setTarget] = useState(null);
@@ -123,9 +124,15 @@ function GameBoard() {
 			<Timer startTime={startTime} finalMs={finishedTime} />
 			{feedback && <p role="status">{feedback}</p>}
 			{savedName && (
-				<p>
-					Saved {savedName}'s time of {formatTime(finishedTime)}
-				</p>
+				<>
+					<p>
+						Saved {savedName}'s time of {formatTime(finishedTime)}
+					</p>
+					<Leaderboard imageId={IMAGE_ID} currentGameId={game.gameId} />
+					<button type="button" onClick={onPlayAgain}>
+						Play again
+					</button>
+				</>
 			)}
 
 			<div className={styles.board} ref={boardRef}>
