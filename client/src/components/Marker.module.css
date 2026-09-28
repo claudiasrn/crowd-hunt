@@ -1,0 +1,9 @@
+.marker {
+	position: absolute;
+	width: var(--box-size);
+	aspect-ratio: 1;
+	transform: translate(-50%, -50%);
+	border: 3px solid limegreen;
+	border-radius: 50%;
+	pointer-events: none;
+}
