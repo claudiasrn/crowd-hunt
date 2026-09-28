@@ -9,5 +9,9 @@ afterEach(() => {
 });
 
 // jsdom doesn't implement <dialog> methods
-HTMLDialogElement.prototype.showModal = vi.fn();
-HTMLDialogElement.prototype.close = vi.fn();
+HTMLDialogElement.prototype.showModal = vi.fn(function () {
+	this.open = true;
+});
+HTMLDialogElement.prototype.close = vi.fn(function () {
+	this.open = false;
+});
