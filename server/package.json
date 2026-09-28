@@ -1,26 +1,32 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "node --watch --env-file=.env index.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
-  "dependencies": {
-    "@prisma/adapter-pg": "^7.10.0",
-    "@prisma/client": "^7.10.0",
-    "cors": "^2.8.6",
-    "express": "^5.2.1",
-    "express-validator": "^7.3.2",
-    "pg": "^8.23.0"
-  },
-  "devDependencies": {
-    "prisma": "^7.10.0"
-  }
+	"name": "server",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+		"start": "node index.js",
+		"dev": "node --watch --env-file=.env index.js"
+	},
+	"jest": {
+		"testEnvironment": "node",
+		"transform": {}
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "module",
+	"dependencies": {
+		"@prisma/adapter-pg": "^7.10.0",
+		"@prisma/client": "^7.10.0",
+		"cors": "^2.8.6",
+		"express": "^5.2.1",
+		"express-validator": "^7.3.2",
+		"pg": "^8.23.0"
+	},
+	"devDependencies": {
+		"jest": "^30.5.2",
+		"prisma": "^7.10.0",
+		"supertest": "^7.3.0"
+	}
 }
